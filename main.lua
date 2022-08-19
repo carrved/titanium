@@ -1,4 +1,4 @@
-local ver = 'v0.0.1beta'
+local ver = 'v0.0.2beta'
 
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local ESPLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kiriot22/ESP-Lib/main/ESP.lua"))()
@@ -17,7 +17,7 @@ local Window = Library:CreateWindow({
     -- Position and Size are also valid options here
     -- but you do not need to define them unless you are changing them :)
 
-    Title = 'Titanium B',
+    Title = 'Titanium B | ' .. ver,
     Center = true, 
     AutoShow = true,
 })
@@ -139,7 +139,7 @@ end)
 local ESP = Tabs.Visuals:AddLeftGroupbox('ESP')
 
 ESP:AddToggle('BoxESP', {
-	Text = "Box ESP",
+	Text = "Master Toggle",
 	Default = false,
 	Tooltip = "Toggles BoxESP."
 })
@@ -184,9 +184,18 @@ ESP:AddToggle('AutoRemove', {
 	Tooltip = 'Toggles if the esp is destroyed if the object is parented to nil.'
 })
 
+ESP:AddLabel('Color'):AddColorPicker('ESPColor', {
+    Default = Color3.fromRGB(255, 255, 255), -- Bright green
+    Title = 'Box ESP Color', -- Optional. Allows you to have a custom color picker title (when you open it)
+})
+
+Options.ESPColor:OnChanged(function()
+    ESPLib.Color = Options.ESPColor.Value
+end)
+
 Toggles.AutoRemove:OnChanged(function()
 
-end)
+end	)
 
 Library:SetWatermarkVisibility(true)
 
