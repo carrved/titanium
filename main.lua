@@ -1,9 +1,11 @@
+local ver = 'v0.0.1beta'
+
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+local ESPLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kiriot22/ESP-Lib/main/ESP.lua"))()
 
 local Player = game:GetService("Players").LocalPlayer
 local Character = Player.Character
 local Humanoid = Character.Humanoid
-local Camera = workspace.CurrentCamera
 
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
@@ -24,7 +26,7 @@ local Tabs = {
     -- Creates a new tab titled Main
     Player = Window:AddTab('Player'),
 	Visuals = Window:AddTab('Visuals'),
-    ['Config'] = Window:AddTab('Config'),
+    ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
 local Movement = Tabs.Player:AddLeftGroupbox('Movement')
@@ -123,52 +125,96 @@ Body:AddButton('Remove Accessories', function()
 	end
 end)
 
-local ESP = Tabs.Player:AddLeftGroupbox('ESP')
+local LocalPlayer = Tabs.Player:AddLeftGroupbox('LocalPlayer')
 
-ESP:AddToggle('Tracers', {
-	local TracerLine = Drawing.new("Line")
-	TracerLine.Color = Color3.fromRGB(255, 255, 255)
-	TracerLine.Thickness = TracerThick
-})
-
-ESP:AddSlider('TracerThickness', {
-	Text = 'Tracer Thickness',
-	Default = 1,
-	Min = 1,
-	Max = 50,
-	Rounding = 1,
-	Compact = false,
-})
-
-local TracerThick = Options.TracerThickness.Value
-Options.TracerThickness:OnChanged(function()
-	TracerThick = Options.TracerThickness.Value
+LocalPlayer:AddButton('Rejoin', function()
+	local ts = game:GetService("TeleportService")
+	ts:Teleport(game.PlaceId, Player)
 end)
 
+LocalPlayer:AddButton('Respawn', function()
+	Character.Head.Parent = workspace
+end)
 
--- Library functions
--- Sets the watermark visibility
+local ESP = Tabs.Visuals:AddLeftGroupbox('ESP')
+
+ESP:AddToggle('BoxESP', {
+	Text = "Box ESP",
+	Default = false,
+	Tooltip = "Toggles BoxESP."
+})
+
+Toggles.BoxESP:OnChanged(function()
+	ESPLib:Toggle(Toggles.BoxESP.Value)
+end)
+
+ESP:AddToggle('Tracers', {
+	Text = 'Tracers',
+	Default = false,
+	Tooltip = 'Toggles Tracers.'
+})
+
+Toggles.Tracers:OnChanged(function()
+	ESPLib.Tracers = Toggles.Tracers.Value
+end)
+
+ESP:AddToggle('TeamColor', {
+	Text = 'TeamColor',
+	Default = false,
+	Tooltip = 'Toggles TeamColor for ESP.'
+})
+
+Toggles.TeamColor:OnChanged(function()
+	ESPLib.TeamColor = Toggles.TeamColor.Value
+end)
+
+ESP:AddToggle('FaceCamera', {
+	Text = 'FaceCamera',
+	Default = false,
+	Tooltip = 'Toggles whether or not the esp boxes face you.'
+})
+
+Toggles.FaceCamera:OnChanged(function()
+	ESPLib.FaceCamera = Toggles.FaceCamera.Value
+end)
+
+ESP:AddToggle('AutoRemove', {
+	Text = 'AutoRemove',
+	Default = false,
+	Tooltip = 'Toggles if the esp is destroyed if the object is parented to nil.'
+})
+
+Toggles.AutoRemove:OnChanged(function()
+
+end)
+
 Library:SetWatermarkVisibility(true)
 
 -- Sets the watermark text
-Library:SetWatermark('Titanium B | v0.0.1beta')
+Library:SetWatermark('Titanium | Welcome, ' .. Player.DisplayName .. '! | ' .. ver)
 
 Library.KeybindFrame.Visible = true; -- todo: add a function for this
 
 Library:OnUnload(function()
-    print('Unloaded!')
+	ESPLib:Toggle()
+    print('TITANIUM - Unloaded!')
     Library.Unloaded = true
 end)
 
 -- UI Settings
-local MenuGroup = Tabs['Config']:AddLeftGroupbox('Menu')
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 -- I set NoUI so it does not show up in the keybinds menu
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
 MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' }) 
 
-Library.ToggleKeybind = Options.MenuKeybind
+Library.ToggleKeybind = Options.MenuKeybind -- Allows you to have a custom keybind for the menu
 
+-- Addons:
+-- SaveManager (Allows you to have a configuration system)
+-- ThemeManager (Allows you to have a menu theme system)
+
+-- Hand the library over to our managers
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 
@@ -183,8 +229,8 @@ SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
 -- use case for doing it this way: 
 -- a script hub could have themes in a global folder
 -- and game configs in a separate folder per game
-ThemeManager:SetFolder('titanium')
-SaveManager:SetFolder('titanium/saves')
+ThemeManager:SetFolder('MyScriptHub')
+SaveManager:SetFolder('MyScriptHub/specific-game')
 
 -- Builds our config menu on the right side of our tab
 SaveManager:BuildConfigSection(Tabs['UI Settings']) 
