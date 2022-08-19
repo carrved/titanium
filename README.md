@@ -1,2 +1,2 @@
 # titanium
-based utility script
+based uni script
