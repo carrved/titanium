@@ -247,3 +247,9 @@ SaveManager:BuildConfigSection(Tabs['UI Settings'])
 -- Builds our theme menu (with plenty of built in themes) on the left side
 -- NOTE: you can also call ThemeManager:ApplyToGroupbox to add it to a specific groupbox
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
+
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "titanium",
+	Text = "go to .gg/GSdA9bEqgz for support and suggestions",
+	Icon = "rbxassetid://10666169637"
+})
