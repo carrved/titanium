@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- neon initialization
 
 if not NEON then
@@ -10,6 +11,9 @@ if not NEON then
 end
 
 -- dependencies
+=======
+local ver = 'v0.0.2beta'
+>>>>>>> 1a1a3d563f8d2bc7dd30acac826e7efec14df60f
 
 local ESPLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kiriot22/ESP-Lib/main/ESP.lua"))()
 
@@ -64,7 +68,11 @@ local Window = Library:CreateWindow({
     -- Position and Size are also valid options here
     -- but you do not need to define them unless you are changing them :)
 
+<<<<<<< HEAD
     Title = 'Titanium B | ' .. ver .. ' | ' .. 'Welcome, ' .. Player.DisplayName,
+=======
+    Title = 'Titanium B | ' .. ver,
+>>>>>>> 1a1a3d563f8d2bc7dd30acac826e7efec14df60f
     Center = true, 
     AutoShow = true,
 })
@@ -292,10 +300,15 @@ Options.ESPColor:OnChanged(function()
 end)
 
 Toggles.AutoRemove:OnChanged(function()
+<<<<<<< HEAD
 	synlog:success('toggled autoremove')
 end	)
 
 synlog:print('initializing settings...')
+=======
+
+end	)
+>>>>>>> 1a1a3d563f8d2bc7dd30acac826e7efec14df60f
 
 Library:SetWatermarkVisibility(true)
 
@@ -357,5 +370,13 @@ SaveManager:BuildConfigSection(Tabs['UI Settings'])
 -- NOTE: you can also call ThemeManager:ApplyToGroupbox to add it to a specific groupbox
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
 
+<<<<<<< HEAD
 synlog:success('titanium loaded successfully!')
 synlog:print('go to .gg/GSdA9bEqgz for support and suggestions')
+=======
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "titanium",
+	Text = "go to .gg/GSdA9bEqgz for support and suggestions",
+	Icon = "rbxassetid://10666169637"
+})
+>>>>>>> 1a1a3d563f8d2bc7dd30acac826e7efec14df60f
