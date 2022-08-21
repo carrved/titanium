@@ -305,7 +305,7 @@ Library:SetWatermarkVisibility(true)
 
 -- os.date("%x") .. ' ' ..  os.date("%I") .. ':' .. os.date("%M") .. os.date("%p")
 -- Sets the watermark text
-Library:SetWatermark('Titanium | '.. time .. ' | ' .. ver)
+Library:SetWatermark('Titanium | ' .. 'Welcome, ' .. Player.DisplayName .. '! | ' .. ver)
 
 Library.KeybindFrame.Visible = true; -- todo: add a function for this
 
