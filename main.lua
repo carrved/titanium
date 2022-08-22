@@ -95,20 +95,26 @@ Options.WalkSpeed:OnChanged(function()
 	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Options.WalkSpeed.Value
 end)
 
---Movement:AddInput('TPText', {
---	Text = 'Teleport to Player',
---	Numeric = false,
---	Finished = true,
---	Tooltip = 'Teleports to player entered in text box',
---	Placeholder = 'Enter player name...',
---})
---
---Options.TPText:OnChanged(function()
---	local plr1 = Character
---	local plr2 = game.Workspace:FindFirstChild(Options.TPText.Value)
---	plr1.PrimaryPart.CFrame = plr2.PrimaryPart.CFrame * CFrame.new(0,2,0)
---	synlog:success('teleported to ' .. Options.TPText.Value)
---end)
+Movement:AddInput('TPText', {
+	Text = 'Move to Player',
+	Numeric = false,
+	Finished = true,
+	Tooltip = 'Moves to player entered in text box',
+	Placeholder = 'Enter player name...',
+})
+
+Options.TPText:OnChanged(function()
+	local plr1 = Character
+	local plr2 = workspace:FindFirstChild(Options.TPText.Value)
+		
+	if not plr2 then 
+		return
+		synlog:error('player not found!')
+	end
+	plr1:MoveTo(plr2.PrimaryPart.Position + Vector3.new(0,2,0))
+		
+	synlog:success('teleported to ' .. Options.TPText.Value)
+end)
 
 local Body = Tabs.Player:AddLeftGroupbox('Body')
 
