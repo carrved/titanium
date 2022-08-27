@@ -64,7 +64,7 @@ local Window = Library:CreateWindow({
     -- Position and Size are also valid options here
     -- but you do not need to define them unless you are changing them :)
 
-    Title = 'Titanium B | ' .. ver .. ' | ' .. 'Welcome, ' .. Player.DisplayName,
+    Title = 'Titanium B | ' .. ver .. ' | ' .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
     Center = true, 
     AutoShow = true,
 })
