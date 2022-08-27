@@ -294,7 +294,7 @@ ESP:AddLabel('Color'):AddColorPicker('ESPColor', {
     Title = 'Box ESP Color', -- Optional. Allows you to have a custom color picker title (when you open it)
 })
 
-local Ambient = Visuals:AddRightGroupbox('Ambient')
+local Ambient = Tabs.Visuals:AddRightGroupbox('Ambient')
 
 Ambient:AddLabel('AmbientColor'):AddColorPicker('AmbientColorPicker', {
     Default = Color3.fromRGB(255, 255, 255),
@@ -311,10 +311,6 @@ end)
 
 Toggles.AutoRemove:OnChanged(function()
 	synlog:success('toggled autoremove')
-end)
-	
-Toggles.ToggleAim:OnChanged(function()
-    aim = Toggles.ToggleAim.Value		
 end)
 
 synlog:print('initializing settings...')
