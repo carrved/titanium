@@ -334,6 +334,18 @@ Legit:AddButton('InitAim', function()
 		camera.CFrame = CFrame.new(camera.CFrame.Position,player().Character.Head.Position)
 	    end
 	end)	
+			
+	UIS.InputBegan:Connect(function(inp)
+	    if inp.UserInputType == Enum.UserInputType.MouseButton2 then
+		aim = true
+	    end
+	end)
+
+	UIS.InputEnded:Connect(function(inp)
+	    if inp.UserInputType == Enum.UserInputType.MouseButton2 then
+		aim = false
+	    end
+	end)
 end)
 
 Legit:AddToggle('ToggleAim', {
