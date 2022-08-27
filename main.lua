@@ -73,7 +73,8 @@ synlog:print('initializing tabs...')
 local Tabs = {
     -- Creates a new tab titled Main
     Player = Window:AddTab('Player'),
-	Visuals = Window:AddTab('Visuals'),
+    Visuals = Window:AddTab('Visuals'),
+    Legit = Window:AddTab('Legit'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
 
@@ -299,7 +300,51 @@ end)
 
 Toggles.AutoRemove:OnChanged(function()
 	synlog:success('toggled autoremove')
-end	)
+end)
+
+Legit:AddButton('InitAim', function()
+    	local localPlayer = game:GetService("Players").LocalPlayer
+
+	local function player()
+	    local target = nil
+	    local dist = math.huge
+
+	    for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+		if v.Name ~= localPlayer.Name then
+		    if v.Character and v.Character:FindFirstChild("Head") and v.Character.Humanoid.Health > 0 and v.Character:FindFirstChild("Head") and v.TeamColor ~= localPlayer.TeamColor then
+			local magnitude = (v.Character.HumanoidRootPart.Position - localPlayer.Character.HumanoidRootPart.Position).magnitude
+
+			if magnitude < dist then
+			    target = v
+			    dist = magnitude
+			end
+		end
+	    end
+
+	    return target
+	end
+
+
+	local camera = game.Workspace.CurrentCamera
+	local UIS = game:GetService("UserInputService")
+	local aim = false
+
+	game:GetService("RunService").RenderStepped:Connect(function()
+	    if aim then
+		camera.CFrame = CFrame.new(camera.CFrame.Position,player().Character.Head.Position)
+	    end
+	end)	
+end)
+
+Legit:AddToggle('ToggleAim', {
+    Text = 'Toggle Aim',
+    Default = false,
+    Tooltip = 'Toggles Aimbot'
+})
+	
+Toggles.ToggleAim:OnChanged(function()
+    aim = Toggles.ToggleAim.Value		
+end)
 
 synlog:print('initializing settings...')
 
