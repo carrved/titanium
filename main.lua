@@ -11,6 +11,34 @@ end
 
 -- dependencies
 
+loadstring(game:HttpGet('https://github.com/Exunys/Aimbot-V2/raw/main/Resources/Scripts/Main.lua'))();
+
+getgenv().Aimbot.Settings = {
+    SendNotifications = true,
+    SaveSettings = true, -- Re-execute upon changing
+    ReloadOnTeleport = true,
+    Enabled = false,
+    TeamCheck = false,
+    AliveCheck = true,
+    WallCheck = false, -- Laggy
+    Sensitivity = 0, -- Animation length (in seconds) before fully locking onto target
+    TriggerKey = "MouseButton2",
+    Toggle = false,
+    LockPart = "Head" -- Body part to lock on (Character part's name)
+}
+
+getgenv().Aimbot.FOVSettings = {
+    Enabled = false,
+    Visible = true,
+    Amount = 90,
+    Color = "255, 255, 255",
+    LockedColor = "255, 70, 70",
+    Transparency = 0.5,
+    Sides = 60,
+    Thickness = 1,
+    Filled = false
+}
+
 local ESPLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kiriot22/ESP-Lib/main/ESP.lua"))()
 
 synlog = NEON:github('belkworks', 'synlog')
@@ -311,6 +339,105 @@ end)
 
 Toggles.AutoRemove:OnChanged(function()
 	synlog:success('toggled autoremove')
+	ESPLib.AutoRemove = Toggles.AutoRemove.Value
+end)
+
+local Aim = Tabs.Legit:AddRightGroupbox('Aim')
+
+Aim:AddToggle('AimMaster', {
+	Text = 'Master Toggle',
+	Default = false,
+	Tooltip = 'Toggles aimbot'
+})
+
+Aim:AddButton('FactoryResetAim', function()
+	getgenv().Aimbot.Settings = {
+		SendNotifications = true,
+		SaveSettings = true, -- Re-execute upon changing
+		ReloadOnTeleport = true,
+		Enabled = true,
+		TeamCheck = false,
+		AliveCheck = true,
+		WallCheck = false, -- Laggy
+		Sensitivity = 0, -- Animation length (in seconds) before fully locking onto target
+		TriggerKey = "MouseButton2",
+		Toggle = false,
+		LockPart = "Head" -- Body part to lock on
+	}
+
+	getgenv().Aimbot.FOVSettings = {
+		Enabled = true,
+		Visible = true,
+		Amount = 90,
+		Color = "255, 255, 255",
+		LockedColor = "255, 70, 70",
+		Transparency = 0.5,
+		Sides = 60,
+		Thickness = 1,
+		Filled = false
+	}
+end)
+
+Toggles.AimMaster:OnChanged(function()
+	getgenv().Aimbot.Settings.Enabled = Toggles.AimMaster.Value
+end)
+
+local AimSettings = Tabs.Legit:AddLeftGroupbox('Aim Settings')
+
+AimSettings:AddToggle('TeamCheck', {
+	Text = 'Team Check',
+	Default = false,
+	Tooltip = 'Toggles Team Check for Aimbot'
+})
+
+Toggles.TeamCheck:OnChanged(function()
+	getgenv().Aimbot.Settings.TeamCheck = Toggles.TeamCheck.Value
+end)
+
+AimSettings:AddToggle('AliveCheck', {
+	Text = 'Alive Check',
+	Default = false,
+	Tooltip = 'Toggles Alive Check for Aimbot'
+})
+
+Toggles.AliveCheck:OnChanged(function()
+	getgenv().Aimbot.Settings.AliveCheck = Toggles.AliveCheck.Value
+end)
+
+AimSettings:AddToggle('WallCheck', {
+	Text = 'Wall Check',
+	Default = false,
+	Tooltip = 'Toggles Wall Check for Aimbot'
+})
+
+Toggles.WallCheck:OnChanged(function()
+	getgenv().Aimbot.Settings.WallCheck = Toggles.WallCheck.Value
+end)
+
+AimSettings:AddSlider('AimSensitivity', {
+	Text = 'Sensitivity',
+    Default = 0,
+    Min = 0,
+    Max = 50,
+    Rounding = 1,
+    Compact = false,
+	Tooltip = 'Animation length of the aim lock'
+})
+
+Options.AimSensitivity:OnChanged(function()
+	getgenv().Aimbot.Settings.Sensitivity = Options.AimSensitivity.Value
+end)
+
+AimSettings:AddLabel('ToggleBind'):AddKeyPicker('AimBindPicker', {
+	Default = 'MB2',
+	SyncToggleState = true,
+	Mode = 'Toggle',
+	Text = 'Toggle Bind',
+	NoUI = false,
+})
+
+Options.AimBindPicker:OnClick(function()
+	getgenv().Aimbot.Settings.TriggerKey = Options.AimBindPicker.Value
 end)
 
 synlog:print('initializing settings...')
